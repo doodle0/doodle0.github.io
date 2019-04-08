@@ -1,0 +1,23 @@
+body {
+    background-color: linen
+}
+h1 {
+    text-align: center;
+    padding: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: darkslateblue;
+    background-color: lightsteelblue;
+    border: 2pt solid royalblue
+}
+a.button {
+    text-align: center;
+    font-size: 120%;
+    text-decoration: none;
+    padding: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: white;
+    background-color: rgb(119, 153, 52);
+    border: 2pt solid darkolivegreen
+}
