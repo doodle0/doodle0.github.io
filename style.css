@@ -1,23 +1,42 @@
-body {
-    background-color: linen
-}
-h1 {
+div.album {
+    display: block;
     text-align: center;
-    padding: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    color: darkslateblue;
-    background-color: lightsteelblue;
-    border: 2pt solid royalblue
+    margin-left: auto;
+    margin-right: auto;
 }
-a.button {
-    text-align: center;
-    font-size: 120%;
-    text-decoration: none;
-    padding: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    color: white;
-    background-color: rgb(119, 153, 52);
-    border: 2pt solid darkolivegreen
+
+h1.album {
+    color: green;
+}
+
+.alrow {
+    display: inline-block;
+    width: 300px;
+    margin: 24px;
+    border: solid 2px #aaa;
+}
+
+.alart {
+    width: 300px;
+    height: 300px;
+}
+
+.songtitle {
+    display: table-cell;
+    width: 300px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    padding: 16px;
+}
+
+.bottombutton {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 8px;
+    margin: 8px;
+    color: #fff;
+    background-color: green;
 }
