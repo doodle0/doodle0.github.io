@@ -33,10 +33,10 @@ $(function() {
             }
 
             var pdiv = document.createElement("div");
-            pdiv.className = "w3-panel w3-card problem-card";
+            pdiv.className = "w3-panel w3-card w3-light-gray problem-card";
 
             var pheader = document.createElement("h3");
-            pheader.appendChild(document.createTextNode(data[i].chapter_name + " 문제 풀기"));
+            pheader.appendChild(document.createTextNode("문제"));
             pdiv.appendChild(pheader);
 
             var ptable = document.createElement("table");

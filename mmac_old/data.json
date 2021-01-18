@@ -258,18 +258,37 @@
         "from": "백준",
         "name": "단지 번호 붙이기",
         "link": "https://www.acmicpc.net/problem/2667"
+      },
+      {
+        "from": "백준",
+        "name": "치즈",
+        "link": "https://www.acmicpc.net/problem/2636"
       }
     ]
   },
   {
-    "chapter_id": "dfs",
-    "chapter_name": "DFS",
+    "chapter_id": "dp",
+    "chapter_name": "DP",
     "chapter_concepts": [
       {
-        "concept_title": "큐 개념",
-        "link": "http://220.89.64.243/30stair/stack/stack.php?pname=stack"
+        "concept_title": "DP 개념",
+        "link": "http://220.89.64.243/30stair/dp_doc/dp_doc.php?pname=dp_doc"
       }
     ],
-    "chapter_problems": []
+    "chapter_problems": [
+      {
+        "from": "백준",
+        "name": "DP의 기본 (문제집)",
+        "link": "https://www.acmicpc.net/group/workbook/view/7471/21121"
+      },
+      {
+        "from": "백준",
+        "name": "DP 심화 (문제집)",
+        "link": "https://www.acmicpc.net/group/workbook/view/7471/21123"
+      }
+    ]
+  },
+  {
+    
   }
 ]
