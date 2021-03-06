@@ -8,6 +8,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 | c     | b     |
 | - | - |
+| c     | b     |
 {: .tablelines}
 
 ### Markdown
