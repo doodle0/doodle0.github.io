@@ -68,6 +68,9 @@
     .center {
         text-align: center;
     }
+    .main-content h1 {
+        display: none;
+    }
     .main-content h2 {
         text-align: center;
     }
