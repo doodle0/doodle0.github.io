@@ -35,12 +35,10 @@
 
 사는 건 어려운 게 아닌 것 같아요.
 
-<span class="center">
-
-*"지금 이걸 하는 게 무슨 의미가 있지?"\
-"앞으로 뭘 하면서 살아야 하지?"*
-
-</span>
+<p class="center">
+    <em>"지금 이걸 하는 게 무슨 의미가 있지?"<br/>
+    "앞으로 뭘 하면서 살아야 하지?"</em>
+</p>
 
 이런 고민은 참 쓸모없다는 것을 깨달았어요.
 
@@ -70,10 +68,11 @@
     .center {
         text-align: center;
     }
-    h2, h3 {
+    .main-content h2 {
         text-align: center;
     }
-    h3 {
+    .main-content h3 {
+        text-align: center;
         margin-top: 1rem;
     }
     p {
