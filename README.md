@@ -1,43 +1,83 @@
-# h1
+# doodle0's GitHub
 
-## Welcome to GitHub Pages 1
+이 글을 발견한 당신은 정말 멋있는 사람이랍니다.\
+그런 의미에서 당신에게 물어볼 게 하나 있어요.
 
-You can use the [editor on GitHub](https://github.com/doodle0/doodle0.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## 당신의 가슴을 뛰게 하는 것은 무엇인가요?
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+두근두근 설레는 연인과의 데이트?
 
-| - | - |
-| c     | b     |
-{: .tablelines}
+배틀그라운드에서 치킨 먹기?
 
-### Markdown
+미치도록 응원한 월드컵 예선 마지막 경기에서 기적같이 얻어낸 역전골?
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+이런 것과는 좀 다른 종류의 떨림이 있잖아요.
 
-```markdown
-Syntax highlighted code block
+생각만 해도 마음속이 활활 타오르는 불꽃으로 가득하게 되고,\
+생각하면 할수록 그걸 열망하는 마음은 커져만 가는\
+그런 것들이 다들 하나씩은 있을 거예요.
 
-# Header 1
-## Header 2
-### Header 3
+### 그걸 꿈이라고 합시다.
 
-- Bulleted
-- List
+고등학교 땐 작은 반지하 단칸방에\
+음악을 할 수 있는 작업실을 꾸리는 것이 꿈이었어요.
 
-1. Numbered
-2. List
+지금은 음악을 취미로만 하고 있지만, 언젠가 기회가 온다면\
+그 꿈을 현실로 옮길 것이랍니다.
 
-**Bold** and _Italic_ and `Code` text
+하지만 꿈이라는 건 이룰 수 없을지도 몰라요.\
+현실을 살아가는 건 복잡하고 세상이 내 멋대로 돌아가지는 않으니까요.
 
-[Link](url) and ![Image](src)
-```
+하지만 상관없어요. 그것이 내 가슴을 진심으로 뛰게 한다면\
+그 꿈을 떠올리는 것만으로도 앞으로 힘차게 나아갈 힘이 생기니까요.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### 20년 남짓밖에 살지 않았지만
 
-### Jekyll Themes
+사는 건 어려운 게 아닌 것 같아요.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/doodle0/doodle0.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+<span class="center">
 
-### Support or Contact
+*"지금 이걸 하는 게 무슨 의미가 있지?"\
+"앞으로 뭘 하면서 살아야 하지?"*
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+</span>
+
+이런 고민은 참 쓸모없다는 것을 깨달았어요.
+
+지금 가지고 있는 그 꿈. 그 열정. 그 이상.\
+그것만으로도 우리 인생은 환히 빛나고 있답니다.
+
+한번뿐인 인생에서 무엇을 얻고 싶은가요?
+
+돈? 명예? 사회적 지위?
+
+마음 속에 소중한 꿈에 대한 불타는 열정이 있다면 이런 게 중요할까요?
+
+그러니 이번에는 여러분에게 다시 한 번 물어볼게요.
+
+---
+
+### *당신의 가슴을 뛰게 하는 것은 무엇인가요?*
+
+---
+
+<p style="text-align: right">2022년 12월 19일 새벽 씀</p>
+
+<style>
+    .main-content {
+        max-width: 48rem;
+    }
+    .center {
+        text-align: center;
+    }
+    h2, h3 {
+        text-align: center;
+    }
+    h3 {
+        margin-top: 1rem;
+    }
+    p {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+</style>
