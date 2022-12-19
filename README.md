@@ -78,8 +78,8 @@
     .main-content h3 {
         margin-top: 1rem;
     }
-    .main-content p {
-        max-width: 48rem;
+    .main-content p, .main-content h2, .main-content h3 {
+        max-width: 40rem;
         margin-left: auto;
         margin-right: auto;
     }
