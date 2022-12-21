@@ -18,7 +18,7 @@ var itemPos = newItemPos();
 var gotItem = false;
 var dead = false;
 
-var draw;
+var intervDraw;
 
 var sounds = {
     coin: new Audio("coin.wav"),
@@ -26,7 +26,7 @@ var sounds = {
 };
 
 function reset() {
-    draw = setInterval(onDraw, 150);
+    intervDraw = setInterval(onDraw, 150);
 
     snakePos = [
         [11, 12],
@@ -83,7 +83,7 @@ function onDraw() {
 
     if (newPos[0] == itemPos[0] && newPos[1] == itemPos[1]) {
         gotItem = true;
-        sounds.coins.play();
+        sounds.coin.play();
     }
     for (var i = 0; i < snakePos.length; i++) {
         if (newPos[0] == snakePos[i][0] && newPos[1] == snakePos[i][1]) {
@@ -103,7 +103,7 @@ function onDraw() {
     }
 
     if (dead) {
-        clearInterval(draw);
+        clearInterval(intervDraw);
         sounds.lose.play();
     }
 
