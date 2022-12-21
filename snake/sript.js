@@ -20,10 +20,10 @@ var dead = false;
 
 var draw;
 
-var sounds = [
-    new Audio("coin.wav"),
-    new Audio("lose.wav")
-];
+var sounds = {
+    coin: new Audio("coin.wav"),
+    lose: new Audio("lose.wav"),
+};
 
 function reset() {
     draw = setInterval(onDraw, 150);
@@ -83,7 +83,7 @@ function onDraw() {
 
     if (newPos[0] == itemPos[0] && newPos[1] == itemPos[1]) {
         gotItem = true;
-        sounds[0].play();
+        sounds.coins.play();
     }
     for (var i = 0; i < snakePos.length; i++) {
         if (newPos[0] == snakePos[i][0] && newPos[1] == snakePos[i][1]) {
@@ -104,7 +104,7 @@ function onDraw() {
 
     if (dead) {
         clearInterval(draw);
-        sounds[1].play();
+        sounds.lose.play();
     }
 
     gotItem = false;
@@ -133,7 +133,7 @@ function onDraw() {
     document.getElementById("txtScore").innerHTML = `Score : ${snakePos.length}`;
 }
 
-document.onkeydown = function(e) {
+document.onkeydown = (e) => {
     switch (e.code) {
         case "KeyD":
         if (snakeDirection != LEFT) snakeDirection = RIGHT;
