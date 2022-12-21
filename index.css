@@ -1,5 +1,11 @@
 body {
     background-color: #222;
+
+    transition: 1000ms ease;
+}
+
+body.clicked {
+    background-color: white;
 }
 
 #intro-area {
