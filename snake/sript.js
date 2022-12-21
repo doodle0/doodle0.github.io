@@ -18,7 +18,7 @@ var itemPos = newItemPos();
 var gotItem = false;
 var dead = false;
 
-var intervDraw;
+var intervDraw = setInterval(onDraw, 150);;
 
 var sounds = {
     coin: new Audio("coin.wav"),
