@@ -70,5 +70,5 @@
 
 <p style="text-align: right">2022년 12월 19일 새벽 씀</p>
 
-<link rel="stylesheet" type="text/css" href="general.css">
+<link rel="stylesheet" type="text/css" href="../general.css">
 <link rel="stylesheet" type="text/css" href="jekyll-page-narrow.css">
