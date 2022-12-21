@@ -2,7 +2,7 @@ function redirect(e) {
     location.href = "/main"
 }
 
-document.onload = (e) => {
+window.onload = (e) => {
     document.getElementById("intro-btn").onclick = (e) => {
         document.body.className += 'clicked';
         setInterval(redirect, 1000);
