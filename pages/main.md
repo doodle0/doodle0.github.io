@@ -1,10 +1,8 @@
 ---
-layout: default
+layout: page-narrow
 title: "두근거림"
 permalink: /main
 ---
-
-# 두근거림1
 
 이 글을 읽게 된 당신은 정말 멋있는 사람이랍니다.\
 그런 의미에서 당신에게 물어볼 게 하나 있어요.
@@ -75,6 +73,3 @@ permalink: /main
 ---
 
 <p style="text-align: right">2022년 12월 19일 새벽 씀</p>
-
-<link rel="stylesheet" type="text/css" href="/general.css">
-<link rel="stylesheet" type="text/css" href="/jekyll-page-narrow.css">
