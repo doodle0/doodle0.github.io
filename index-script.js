@@ -5,6 +5,6 @@ function redirect(e) {
 window.onload = (e) => {
     document.getElementById("intro-btn").onclick = (e) => {
         document.body.className += 'clicked';
-        setInterval(redirect, 1000);
+        setTimeout(redirect, 1000);
     }
 }
