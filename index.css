@@ -47,10 +47,12 @@ body.clicked {
     font-size: large;
     text-align: center;
     user-select: none;
+    cursor: pointer;
 
     transition: 500ms ease;
 }
 #intro-btn:hover {
+    height: max(4em, min(30vw, 20vh));
     background-color: #222;
 }
 
