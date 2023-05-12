@@ -1,2 +1,4 @@
 title: doodle0's Site
-theme: jekyll-theme-cayman
+plugins:
+  - jekyll-remote-theme
+remote_theme: zivhub/monophase@main
