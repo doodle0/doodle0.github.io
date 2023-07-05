@@ -1,8 +1,5 @@
-function redirect(e) {
-    location.href = "/main"
-}
-
-window.onload = (e) => {
+window.onpageshow = (e) => {
+    document.body.className = '';
     document.getElementById("btn-to-blog").onclick = (e) => {
         document.body.className += 'clicked';
         setTimeout((e) => {location.href = "/main"}, 1000);
