@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TileCal</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
+  <style>
+    #calendar th {
+      text-align: center;
+      padding: 0.05rem 0.5rem;
+      border-style: none;
+      font-size: 75%;
+    }
+
+    #calendar td {
+      text-align: center;
+      padding: 0.05rem;
+      border-style: none;
+      font-size: 75%;
+    }
+
+    .cal-tile {
+      width: 1.5rem;
+      height: 1.5rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12.5%;
+      overflow: hidden;
+    }
+
+    .cal-tile-tl {
+      border-top-left-radius: 50%;
+    }
+
+    .cal-tile-tr {
+      border-top-right-radius: 50%;
+    }
+
+    .cal-tile-bl {
+      border-bottom-left-radius: 50%;
+    }
+
+    .cal-tile-br {
+      border-bottom-right-radius: 50%;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <main class="container">
+    <h1>TileCal</h1>
+    <p class="pico-color-grey-500">&ndash; 한눈에 보는 1년 달력 📅</p>
+    <label>연도</label>
+    <fieldset role="group">
+      <input id="btn-dec-year" type="button" value="<" />
+      <input id="inp-year" readonly value="2024" />
+      <input id="btn-inc-year" type="button" value=">" />
+    </fieldset>
+    <div class="overflow-auto">
+      <table id="calendar">
+        <tbody>
+          <tr>
+            <th>S</th>
+          </tr>
+          <tr>
+            <th>M</th>
+          </tr>
+          <tr>
+            <th>T</th>
+          </tr>
+          <tr>
+            <th>W</th>
+          </tr>
+          <tr>
+            <th>T</th>
+          </tr>
+          <tr>
+            <th>F</th>
+          </tr>
+          <tr>
+            <th>S</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p></p>
+
+    <article id="cal-description">
+      <h4>일정</h4>
+      <p>타일에 마우스 커서를 올리면 일정 내용이 여기에 표시됩니다.</p>
+    </article>
+
+    <dialog id="cal-popup">
+      <article>
+        <header>
+          <button rel="prev" data-target="cal-popup" onclick="toggleModal(event)"></button>
+          <h4>🤔</h4>
+        </header>
+        <p>
+          Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue finibus
+          pellentesque. Nullam finibus risus non semper euismod.
+        </p>
+      </article>
+    </dialog>
+  </main>
+
+  <script src="modal.js"></script>
+  <script>
+    const TILE_COLOR = "pico-background-grey-100";
+    const TILE_COLOR_HILIGHT = "pico-background-grey-200";
+    const TILE_COLOR_HOVER = "pico-background-grey-150";
+    const TILE_COLOR_HILIGHT_HOVER = "pico-background-grey-250";
+
+    function randInt(n) {
+      return Math.floor(Math.random() * n);
+    }
+
+    function addHoverActions() {
+      $(".cal-tile").hover((e) => {
+        const $target = $(e.target);
+
+        // Update schedule area
+        if (e.type == 'mouseenter') {
+          const year = parseInt($("#inp-year").val());
+          const month = parseInt(e.target.getAttribute("calmonth")) + 1;
+          const date = parseInt(e.target.getAttribute("caldate"));
+          $('#cal-description > h4').html(`${year}년 ${month}월 ${date}일`);
+          $('#cal-description > p').html(["숙제", "청소", "설거지", "동아리", "축구", "운동", "합주", "장보기", "빨래", "코딩"][randInt(10)]);
+        }
+
+        // On hover
+        if (e.type == 'mouseenter') {
+          if ($target.hasClass(TILE_COLOR_HILIGHT)) {
+            $target.removeClass(TILE_COLOR_HILIGHT);
+            $target.addClass(TILE_COLOR_HILIGHT_HOVER);
+          } else {
+            $target.removeClass(TILE_COLOR);
+            $target.addClass(TILE_COLOR_HOVER);
+          }
+        }
+        
+        // On leave
+        else if (e.type == 'mouseleave') {
+          if ($target.hasClass(TILE_COLOR_HILIGHT_HOVER)) {
+            $target.removeClass(TILE_COLOR_HILIGHT_HOVER);
+            $target.addClass(TILE_COLOR_HILIGHT);
+          } else {
+            $target.removeClass(TILE_COLOR_HOVER);
+            $target.addClass(TILE_COLOR);
+          }
+        }
+      });
+    }
+
+    function nextDay(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+    }
+    function isFirstWeekOfMonth(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7).getMonth() != date.getMonth();
+    }
+    function isLastWeekOfMonth(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7).getMonth() != date.getMonth();
+    }
+
+    function clearCalendar() {
+      $(".cal-cell").remove();
+    }
+
+    function addWeekColumn() {
+      $("#calendar tr").append('<td class="cal-cell">');
+    }
+
+    function updateCalendar() {
+      clearCalendar();
+
+      const year = parseInt($("#inp-year").val());
+      const dateBegin = new Date(year, 0, 1);
+      const dateEnd = new Date(year + 1, 0, 1);
+
+      // Add cells for each day of year
+      addWeekColumn();
+      for (let day = dateBegin; day < dateEnd; day.setDate(day.getDate() + 1)) {
+        const month = day.getMonth();
+        const date = day.getDate();
+        const wd = day.getDay();
+
+        const $cell = $("#calendar tr").eq(wd).children().last();
+        $cell.append('<div class="cal-tile">');
+
+        const $tile = $cell.children();
+
+        $tile.attr("calmonth", month).attr("caldate", date);
+
+        if (date == 1) {
+          $tile.text(day.getMonth() + 1).addClass(TILE_COLOR_HILIGHT);
+        } else {
+          $tile.addClass(TILE_COLOR);
+        }
+
+        if (date == 1 || (wd == 0 && isFirstWeekOfMonth(day))) {
+          $tile.addClass("cal-tile-tl");
+        }
+        if (wd == 0 && isLastWeekOfMonth(day)) {
+          $tile.addClass("cal-tile-tr");
+        }
+        if (wd == 6 && isFirstWeekOfMonth(day)) {
+          $tile.addClass("cal-tile-bl");
+        }
+        if (nextDay(day).getDate() == 1 || (wd == 6 && isLastWeekOfMonth(day))) {
+          $tile.addClass("cal-tile-br");
+        }
+
+        if (wd == 6) {
+          addWeekColumn();
+        }
+      }
+
+      // Tile onclick actions
+      $(".cal-tile")
+        .click((e) => {
+          const month = parseInt(e.target.getAttribute("calmonth")) + 1;
+          const date = parseInt(e.target.getAttribute("caldate"));
+          $("#cal-popup h4").html(`${month}월 ${date}일에 무슨 일이 있었을까?🤔`);
+          $("#cal-popup p").html('').append(`<a href="https://ko.wikipedia.org/wiki/${month}%EC%9B%94_${date}%EC%9D%BC">위키백과</a>`);
+          toggleModal(e);
+        })
+        .attr("data-target", "cal-popup");
+
+      // Hover actions
+      addHoverActions();
+    }
+
+    // Features
+    $("#btn-dec-year").click((e) => {
+      $("#inp-year").val((i, oldval) => { return --oldval; })
+      updateCalendar();
+    })
+    $("#btn-inc-year").click((e) => {
+      $("#inp-year").val((i, oldval) => { return ++oldval; })
+      updateCalendar();
+    })
+    $(() => {
+      $("#inp-year").val(new Date().getFullYear());
+      updateCalendar();
+    })
+  </script>
+</body>
+
+</html>
