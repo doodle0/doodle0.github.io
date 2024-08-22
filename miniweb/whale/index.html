@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whale</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
+  <style>
+    canvas {
+      width: 100%;
+      height: calc(100vh - 16rem);
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <main class="container">
+    <header>
+      <h1>Whale</h1>
+    </header>
+
+    <section>
+      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit voluptates ullam rerum vero eos laboriosam
+        excepturi fugit quae! Temporibus accusamus adipisci maxime reprehenderit tempora dicta cum ad assumenda commodi
+        esse.</p>
+    </section>
+
+    <section>
+      <canvas></canvas>
+    </section>
+  </main>
+
+  <script>
+    function dxdy(x1, y1, x2, y2) {
+      return [x2 - x1, y2 - y1];
+    }
+    function vsize(x, y) {
+      return Math.sqrt(x * x + y * y);
+    }
+    function vinner(x1, y1, x2, y2) {
+      return x1 * x2 + y1 * y2;
+    }
+    function vcosangle(x1, y1, x2, y2, x3, y3) {
+      let [vx, vy] = dxdy(x1, y1, x2, y2);
+      let [wx, wy] = dxdy(x2, y2, x3, y3);
+      return vinner(vx, vy, wx, wy) / vsize(vx, vy) / vsize(wx, wy);
+    }
+    function vccw(x1, y1, x2, y2, x3, y3) {
+      return (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+    }
+    function vrotate(x, y, th) {
+      const c = Math.cos(th);
+      const s = Math.sin(th);
+      return [x * c - y * s, x * s + y * c];
+    }
+    function randUnitVector() {
+      const th = Math.random() * 2 * Math.PI;
+      return [Math.cos(th), Math.sin(th)];
+    }
+
+    class Joint {
+      constructor(x, y, r) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+      }
+      
+      setPos(x, y) {
+        this.x = x;
+        this.y = y;
+      }
+    }
+
+    class Skeleton {
+      constructor(radii, jointDist, jointMaxAngle, maxSpeed) {
+        this.joints = radii.map((r) => { return new Joint(Math.random() * canvas.width, Math.random() * canvas.height, r); });
+        this.jointDist = jointDist;
+        this.jointMaxAngle = jointMaxAngle;
+        this.maxSpeed = maxSpeed;
+
+        this.moveHeadTo(canvas.width / 2, canvas.height / 2);
+      }
+
+      moveHeadTo(x, y) {
+        // Set head position
+        this.joints[0].setPos(x, y);
+
+        // Adjust each joint to match the joint distance and angle
+        for (let i = 1; i < this.joints.length; i++) {
+          let joint = this.joints[i];
+          let pJoint = this.joints[i - 1];
+          
+          // Adjust distance
+          let [dx, dy] = dxdy(joint.x, joint.y, pJoint.x, pJoint.y);
+          let d = vsize(dx, dy);
+          joint.setPos(pJoint.x - this.jointDist * dx / d, pJoint.y - this.jointDist * dy / d);
+
+          // Adjust max angle
+          if (i >= 2) {
+            let ppJoint = this.joints[i - 2];
+            let cosTh = vcosangle(ppJoint.x, ppJoint.y, pJoint.x, pJoint.y, joint.x, joint.y);
+            if (cosTh < Math.cos(this.jointMaxAngle)) {
+              if (vccw(ppJoint.x, ppJoint.y, pJoint.x, pJoint.y, joint.x, joint.y) > 0) {
+                [dx, dy] = vrotate(pJoint.x - ppJoint.x, pJoint.y - ppJoint.y, this.jointMaxAngle);
+              } else {
+                [dx, dy] = vrotate(pJoint.x - ppJoint.x, pJoint.y - ppJoint.y, -this.jointMaxAngle);
+              }
+              joint.setPos(pJoint.x + dx, pJoint.y + dy);
+            }
+          }
+        }
+      }
+
+      moveTowards(x, y) {
+        let head = this.joints[0];
+        let [dx, dy] = dxdy(head.x, head.y, x, y);
+        let d = vsize(dx, dy);
+        let moveSpeed;
+
+        if (d > 10 * this.maxSpeed) {
+          moveSpeed = this.maxSpeed;
+        } else {
+          moveSpeed = d / 10;
+        }
+        if (d < 1.01 * this.maxSpeed) return;
+
+        this.moveHeadTo(head.x + dx / d * moveSpeed, head.y + dy / d * moveSpeed);
+      }
+
+      draw() {
+        ctx.fillStyle = "lightgrey";
+        // Circles
+        for (let j of this.joints) {
+          ctx.beginPath();
+          ctx.circle(j.x, j.y, j.r);
+          ctx.fill();
+        }
+
+        // Body
+        for (let i = 1; i < this.joints.length; i++) {
+          let j = this.joints[i];
+          let pj = this.joints[i - 1];
+          ctx.beginPath();
+          ctx.lineTo(j.x, j.y);
+        }
+        
+        // Spine
+        ctx.beginPath();
+        ctx.moveTo(this.joints[0].x, this.joints[0].y);
+        for (let i = 1; i < this.joints.length; i++) {
+          let j = this.joints[i];
+          ctx.lineTo(j.x, j.y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    const canvas = $('canvas')[0];
+    const ctx = canvas.getContext('2d');
+    ctx.circle = function(x, y, radius) {
+      this.ellipse(x, y, radius, radius, 0, 0, 2 * Math.PI);
+    };
+
+    var animal;
+
+    var mouseX = 0;
+    var mouseY = 0;
+
+    function setCanvasSize() {
+      const $canvas = $(canvas);
+      $canvas.attr('width', `${$canvas.width()}`);
+      $canvas.attr('height', `${$canvas.height()}`);
+    }
+
+    function init() {
+      animal = new Skeleton([20, 30, 30, 20, 10], 50, Math.PI / 3, 10);
+    }
+
+    function update() {
+      animal.moveTowards(mouseX, mouseY);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = `#48c`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      animal.draw();
+    }
+
+    $(window).resize(() => {
+      setCanvasSize();
+    });
+
+    $('canvas').mousemove((e) => {
+      mouseX = e.offsetX;
+      mouseY = e.offsetY;
+    })
+
+    $(() => {
+      setCanvasSize();
+      init();
+      var interval = setInterval(() => {
+        update();
+        draw();
+      }, 30);
+    });
+  </script>
+</body>
+
+</html>

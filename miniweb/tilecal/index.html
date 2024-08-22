@@ -58,48 +58,56 @@
 
 <body>
   <main class="container">
-    <h1>TileCal</h1>
-    <p class="pico-color-grey-500">&ndash; 한눈에 보는 1년 달력 📅</p>
-    <label>연도</label>
-    <fieldset role="group">
-      <input id="btn-dec-year" type="button" value="<" />
-      <input id="inp-year" readonly value="2024" />
-      <input id="btn-inc-year" type="button" value=">" />
-    </fieldset>
-    <div class="overflow-auto">
-      <table id="calendar">
-        <tbody>
-          <tr>
-            <th>S</th>
-          </tr>
-          <tr>
-            <th>M</th>
-          </tr>
-          <tr>
-            <th>T</th>
-          </tr>
-          <tr>
-            <th>W</th>
-          </tr>
-          <tr>
-            <th>T</th>
-          </tr>
-          <tr>
-            <th>F</th>
-          </tr>
-          <tr>
-            <th>S</th>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <header>
+      <h1>TileCal</h1>
+      <p class="pico-color-grey-500">&ndash; 한눈에 보는 1년 달력 📅</p>
+    </header>
 
-    <p></p>
+    <section>
+      <label>연도</label>
+      <fieldset role="group">
+        <input id="btn-dec-year" type="button" value="<" />
+        <input id="inp-year" readonly value="2024" />
+        <input id="btn-inc-year" type="button" value=">" />
+      </fieldset>
+    </section>
 
-    <article id="cal-description">
-      <h4>일정</h4>
-      <p>타일에 마우스 커서를 올리면 일정 내용이 여기에 표시됩니다.</p>
-    </article>
+    <section>
+      <div class="overflow-auto">
+        <table id="calendar">
+          <tbody>
+            <tr>
+              <th>S</th>
+            </tr>
+            <tr>
+              <th>M</th>
+            </tr>
+            <tr>
+              <th>T</th>
+            </tr>
+            <tr>
+              <th>W</th>
+            </tr>
+            <tr>
+              <th>T</th>
+            </tr>
+            <tr>
+              <th>F</th>
+            </tr>
+            <tr>
+              <th>S</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <article id="cal-description">
+        <h4>일정</h4>
+        <p>타일에 마우스 커서를 올리면 일정 내용이 여기에 표시됩니다.</p>
+      </article>
+    </section>
 
     <dialog id="cal-popup">
       <article>
@@ -149,7 +157,7 @@
             $target.addClass(TILE_COLOR_HOVER);
           }
         }
-        
+
         // On leave
         else if (e.type == 'mouseleave') {
           if ($target.hasClass(TILE_COLOR_HILIGHT_HOVER)) {
