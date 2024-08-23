@@ -23,12 +23,15 @@
   <main class="container">
     <header>
       <h1>Whale</h1>
+      <p class="pico-color-grey-500">
+        In the depths of the endless blue, whales glide like ancient whispers, with their songs carrying the secrets of the
+        ocean's heart. They dream of a boundless sea, where moonlight shimmers on the surface.</p>
     </header>
 
     <section>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit voluptates ullam rerum vero eos laboriosam
-        excepturi fugit quae! Temporibus accusamus adipisci maxime reprehenderit tempora dicta cum ad assumenda commodi
-        esse.</p>
+      <form>
+        <label><input type="checkbox" id="inp-display-skeleton">뼈대 표시</label>
+      </form>
     </section>
 
     <section>
@@ -64,13 +67,35 @@
       return [Math.cos(th), Math.sin(th)];
     }
 
+    class Ripple {
+      constructor(x, y, r) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.opacity = 0.1;
+      }
+
+      update() {
+        this.r += 1;
+        this.opacity *= 0.98;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.lineWidth = this.r / 5;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`
+        ctx.circle(this.x, this.y, this.r);
+        ctx.stroke();
+      }
+    }
+
     class Joint {
       constructor(x, y, r) {
         this.x = x;
         this.y = y;
         this.r = r;
       }
-      
+
       setPos(x, y) {
         this.x = x;
         this.y = y;
@@ -95,7 +120,7 @@
         for (let i = 1; i < this.joints.length; i++) {
           let joint = this.joints[i];
           let pJoint = this.joints[i - 1];
-          
+
           // Adjust distance
           let [dx, dy] = dxdy(joint.x, joint.y, pJoint.x, pJoint.y);
           let d = vsize(dx, dy);
@@ -123,47 +148,88 @@
         let d = vsize(dx, dy);
         let moveSpeed;
 
-        if (d > 10 * this.maxSpeed) {
+        if (d > 20 * this.maxSpeed) {
           moveSpeed = this.maxSpeed;
         } else {
-          moveSpeed = d / 10;
+          moveSpeed = d / 20;
         }
-        if (d < 1.01 * this.maxSpeed) return;
+        if (d < this.maxSpeed) return;
 
         this.moveHeadTo(head.x + dx / d * moveSpeed, head.y + dy / d * moveSpeed);
       }
 
       draw() {
-        ctx.fillStyle = "lightgrey";
-        // Circles
+        // Ripples
+        ctx.lineWidth = 15;
+        ctx.strokeStyle = "#fff2"
+        for (let j of this.joints) {
+          ctx.beginPath();
+          ctx.circle(j.x, j.y, j.r);
+          ctx.stroke();
+        }
+        ctx.lineWidth = 20;
+        ctx.strokeStyle = "#ffffff08"
+        for (let j of this.joints) {
+          ctx.beginPath();
+          ctx.circle(j.x, j.y, j.r + 20);
+          ctx.stroke();
+        }
+        ctx.lineWidth = 30;
+        ctx.strokeStyle = "#ffffff04"
+        for (let j of this.joints) {
+          ctx.beginPath();
+          ctx.circle(j.x, j.y, j.r + 40);
+          ctx.stroke();
+        }
+
+        // TODO: Fins
+
+        // Body
+        ctx.fillStyle = "#bbc";
         for (let j of this.joints) {
           ctx.beginPath();
           ctx.circle(j.x, j.y, j.r);
           ctx.fill();
         }
 
-        // Body
-        for (let i = 1; i < this.joints.length; i++) {
-          let j = this.joints[i];
-          let pj = this.joints[i - 1];
-          ctx.beginPath();
-          ctx.lineTo(j.x, j.y);
-        }
-        
-        // Spine
+        // Tail
+        ctx.fillStyle = "#88a";
+        const tail = this.joints[this.joints.length - 1];
+        const pTail = this.joints[this.joints.length - 2];
+        const tailTh = Math.atan2(tail.y - pTail.y, tail.x - pTail.x);
         ctx.beginPath();
-        ctx.moveTo(this.joints[0].x, this.joints[0].y);
-        for (let i = 1; i < this.joints.length; i++) {
-          let j = this.joints[i];
-          ctx.lineTo(j.x, j.y);
+        ctx.ellipse(tail.x + 10 * Math.cos(tailTh - Math.PI / 4), tail.y + 10 * Math.sin(tailTh - Math.PI / 4), 10, 20, tailTh + Math.PI / 6, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(tail.x + 10 * Math.cos(tailTh + Math.PI / 4), tail.y + 10 * Math.sin(tailTh + Math.PI / 4), 10, 20, tailTh - Math.PI / 6, 0, 2 * Math.PI);
+        ctx.fill();
+
+        if (displaySkeleton) {
+          // Spine
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = "#f00"
+          ctx.beginPath();
+          ctx.moveTo(this.joints[0].x, this.joints[0].y);
+          for (let i = 1; i < this.joints.length; i++) {
+            let j = this.joints[i];
+            ctx.lineTo(j.x, j.y);
+          }
+          ctx.stroke();
+
+          // Circles
+          ctx.strokeStyle = "#0f0"
+          for (let j of this.joints) {
+            ctx.beginPath();
+            ctx.circle(j.x, j.y, j.r);
+            ctx.stroke();
+          }
         }
-        ctx.stroke();
       }
     }
 
     const canvas = $('canvas')[0];
     const ctx = canvas.getContext('2d');
-    ctx.circle = function(x, y, radius) {
+    ctx.circle = function (x, y, radius) {
       this.ellipse(x, y, radius, radius, 0, 0, 2 * Math.PI);
     };
 
@@ -172,25 +238,43 @@
     var mouseX = 0;
     var mouseY = 0;
 
+    var ripples = [];
+    var rippleJointIdx = 0;
+    var rippleDequeIdx = 0;
+    function addRipple(x, y, r) {
+      ripples[rippleDequeIdx++] = new Ripple(x, y, r);
+      rippleDequeIdx %= 100;
+    }
+
+    var displaySkeleton = false;
+
     function setCanvasSize() {
       const $canvas = $(canvas);
-      $canvas.attr('width', `${$canvas.width()}`);
-      $canvas.attr('height', `${$canvas.height()}`);
+      $canvas.attr('width', $canvas.width());
+      $canvas.attr('height', $canvas.height());
     }
 
     function init() {
-      animal = new Skeleton([20, 30, 30, 20, 10], 50, Math.PI / 3, 10);
+      animal = new Skeleton([15, 22, 25, 28, 30, 31, 32, 31, 30, 28, 26, 23, 20, 17, 15, 13, 11, 8, 7, 0], 15, Math.PI / 12, 5);
     }
 
     function update() {
       animal.moveTowards(mouseX, mouseY);
+
+      for (let ripple of ripples) {
+        ripple.update();
+      }
     }
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = `#48c`;
+      ctx.fillStyle = '#48c';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      for (let ripple of ripples) {
+        ripple.draw();
+      }
 
       animal.draw();
     }
@@ -202,15 +286,29 @@
     $('canvas').mousemove((e) => {
       mouseX = e.offsetX;
       mouseY = e.offsetY;
-    })
+    });
+
+    $('#inp-display-skeleton').change((e) => {
+      displaySkeleton = e.target.checked
+    });
 
     $(() => {
       setCanvasSize();
       init();
-      var interval = setInterval(() => {
+
+      var mainLoop = setInterval(() => {
         update();
         draw();
       }, 30);
+
+      var makeRipple = setInterval(() => {
+        const rippleJoint = animal.joints[rippleJointIdx];
+        rippleJointIdx = (rippleJointIdx + 1) % animal.joints.length;
+        addRipple(rippleJoint.x, rippleJoint.y, rippleJoint.r);
+
+        let head = animal.joints[0];
+        addRipple(head.x, head.y, head.r);
+      }, 150);
     });
   </script>
 </body>
