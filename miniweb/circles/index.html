@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circles</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
+  <style>
+    #root {
+      width: min(100%, 80vh);
+      aspect-ratio: 1/1;
+    }
+
+    .circle {
+      display: grid;
+      flex-grow: 1;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+
+      padding: 0;
+      margin: 0;
+      /* background-color: #000; */
+      border-radius: 50%;
+
+      transition: ease 0.6s;
+
+      animation-duration: 0.6s;
+      animation-timing-function: ease;
+    }
+
+    .invisible {
+      background-color: #0000 !important;
+    }
+
+    @keyframes to-tp-lt {
+      from {
+        background-color: #0000;
+        transform: translate(50%, 50%);
+      }
+
+      to {}
+    }
+
+    @keyframes to-tp-rt {
+      from {
+        background-color: #0000;
+        transform: translate(-50%, 50%);
+      }
+
+      to {}
+    }
+
+    @keyframes to-bt-lt {
+      from {
+        background-color: #0000;
+        transform: translate(50%, -50%);
+      }
+
+      to {}
+    }
+
+    @keyframes to-bt-rt {
+      from {
+        background-color: #0000;
+        transform: translate(-50%, -50%);
+      }
+
+      to {}
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <main class="container">
+    <header>
+      <h1>Circles</h1>
+      <p class="pico-color-grey-500">원을 클릭해 보세요!</p>
+    </header>
+
+    <section>
+      <div id="root" class="circle">
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function clamp(x, min, max) {
+      if (x > max) return max;
+      if (x < min) return min;
+      return x;
+    }
+
+    function formatRgb(r, g, b) {
+      return `rgb(${clamp(r, 0, 255)}, ${clamp(g, 0, 255)}, ${clamp(b, 0, 255)})`;
+    }
+
+    function parseRgb(s) {
+      let match = s.match(/rgba?\((\d*)\, (\d*)\, (\d*).*\)/);  // Match rgb(...) or rgba(...)
+      return [match[1] * 1, match[2] * 1, match[3] * 1];
+    }
+
+    function randomColor() {
+      let r = Math.floor(Math.random() * 256);
+      let g = Math.floor(Math.random() * 256);
+      let b = Math.floor(Math.random() * 256);
+      return formatRgb(r, g, b);
+    }
+
+    function randGaussian(m, s) {
+      let sum = 0;
+      for (let i = 0; i < 12; i++) {
+        sum += Math.random();
+      }
+      return m + (sum - 6) * s;
+    }
+
+    function colorVariant(r, g, b) {
+      let nr = randGaussian(r, 30);
+      let ng = randGaussian(g, 30);
+      let nb = randGaussian(b, 30);
+      return formatRgb(nr, ng, nb);
+    }
+
+    function circleClickCallback(e) {
+      let $target = $(e.target);
+      let [baseR, baseG, baseB] = parseRgb($target.css("background-color"));
+      for (let i = 0; i < 4; i++) {
+        const classes = ["tp-lt", "tp-rt", "bt-lt", "bt-rt"];
+        let $newCircle = $('<div class="circle">')
+          .click(circleClickCallback)
+          .css("animation-name", "to-" + classes[i])
+          .css("background-color", colorVariant(baseR, baseG, baseB));
+        $target.append($newCircle);
+      }
+      $target.addClass('invisible');
+    }
+
+    $(() => {
+      $('.circle')
+        .click(circleClickCallback)
+        .css("background-color", randomColor());
+    })
+  </script>
+</body>
+
+</html>
