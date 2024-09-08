@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +9,25 @@
 
   <link rel="stylesheet" type="text/css" href="assets/index.css">
 
-  <script src="index-script.js"></script>
+  <script>
+    window.onpageshow = (e) => {
+      document.body.className = '';
+      document.getElementById("btn-to-blog").onclick = (e) => {
+        document.body.className += 'clicked';
+        setTimeout((e) => { location.href = "/main" }, 1000);
+      }
+      document.getElementById("btn-to-links").onclick = (e) => {
+        document.body.className += 'clicked';
+        setTimeout((e) => { location.href = "/links" }, 1000);
+      }
+      document.getElementById("btn-to-miniweb").onclick = (e) => {
+        document.body.className += 'clicked';
+        setTimeout((e) => { location.href = "/miniweb" }, 1000);
+      }
+    }
+  </script>
 </head>
+
 <body>
   <div id="intro-area">
     <h1 id="intro-heading">doodle0's site</h1>
@@ -21,6 +39,11 @@
       <div class="inner-text">🏅</div>
       <div class="inner-text-on-hover">Links</div>
     </div>
+    <div id="btn-to-miniweb" class="intro-btn">
+      <div class="inner-text">🎈</div>
+      <div class="inner-text-on-hover">MiniWeb</div>
+    </div>
   </div>
 </body>
+
 </html>

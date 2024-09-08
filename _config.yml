@@ -13,3 +13,5 @@ data:
       url: archive
     - title: Links
       url: links
+    - title: MiniWeb
+      url: miniweb
