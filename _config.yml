@@ -6,3 +6,10 @@ remote_theme: zivhub/monophase@main
 author:
   name: doodle0
   url: "https://github.com/doodle0"
+
+data:
+  navigation:
+    - title: Blog
+      url: archive
+    - title: Links
+      url: links
