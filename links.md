@@ -24,7 +24,7 @@ title: Links
 
 [Inflearn](https://www.inflearn.com/course/c%EC%96%B8%EC%96%B4-%EB%91%90%EB%93%A4%EB%82%99%EC%84%9C)
 
-## Books
+## Publication
 
 최지훈, ["두들낙서의 C/C++ 한꺼번에 배우기"](https://www.yes24.com/Product/Goods/101880448), 위키북스, 2021.
 
