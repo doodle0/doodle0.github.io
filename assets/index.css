@@ -1,9 +1,30 @@
+:root {
+    --color1: 173, 237, 255;
+    --color2: 254, 231, 255;
+    --color3: 255, 253, 189;
+}
+
 body {
     margin: 16px;
 
     background-color: #000;
-    background-image: linear-gradient(75deg, #000, #222 49.9%, #888 50.1%, #222 100%);
-    background-blend-mode: lighten;
+    background-image:
+        linear-gradient(-115deg,
+            #0000,
+            rgba(var(--color1), 10%) 69.9%,
+            rgba(var(--color1), 0.8) 70%,
+            rgba(var(--color1), 20%) 100%),
+        linear-gradient(-2.5deg,
+            #0000,
+            rgba(var(--color2), 10%) 79.9%,
+            rgba(var(--color2), 0.8) 80%,
+            rgba(var(--color2), 20%) 100%),
+        linear-gradient(100deg,
+            #0000,
+            rgba(var(--color3), 10%) 69.9%,
+            rgba(var(--color3), 0.8) 70%,
+            rgba(var(--color3), 20%) 100%);
+    background-blend-mode: screen;
 
     transition: 1000ms ease;
 }
@@ -33,11 +54,11 @@ body.clicked {
 
     transition: 1000ms ease;
 }
+
 #intro-heading:hover {
     color: transparent;
-    background: linear-gradient(45deg, #e7faff, #fee7ff 100%);
+    background: linear-gradient(45deg, rgb(var(--color1)), rgb(var(--color2)) 100%);
     -webkit-background-clip: text;
-    text-shadow: none;
 }
 
 .intro-btn {
@@ -60,6 +81,7 @@ body.clicked {
 
     transition: 500ms ease;
 }
+
 .intro-btn:hover {
     height: 6em;
     background-color: #333;
@@ -70,21 +92,25 @@ body.clicked {
     transition: 600ms ease;
     transform: translateY(0);
 }
+
 .inner-text-on-hover {
     opacity: 0;
     transition: 600ms ease;
     transform: translateY(1.5em);
 }
+
 .intro-btn:hover .inner-text {
     opacity: 0;
     transform: translateY(-1.5em);
 }
+
 .intro-btn:hover .inner-text-on-hover {
     opacity: 1;
     transform: translateY(0);
 }
 
-.intro-btn .inner-text, .intro-btn .inner-text-on-hover {
+.intro-btn .inner-text,
+.intro-btn .inner-text-on-hover {
     position: absolute;
 }
 
