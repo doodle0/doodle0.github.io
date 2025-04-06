@@ -10,7 +10,7 @@ author:
 data:
   navigation:
     - title: Blog
-      url: archive
+      url: blog
     - title: Links
       url: links
     - title: MiniWeb
