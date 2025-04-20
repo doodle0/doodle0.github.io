@@ -41,11 +41,13 @@ title: Links
 
 ## Projects
 
+[Trane! - 음감 트레이닝 (2025)](https://trane.kro.kr/)
+
+[금관악기 시뮬레이션 (2024)](https://github.com/doodle0/pytrumpetsim)
+
 [관악구 맞춤 월세 예측 (2023)](https://doodle0-gwanak-room-main-ocbqt1.streamlit.app/)
 
 [리얼북 검색 (2021-2023)](https://realbook.kro.kr/)
-
-[Trane! - 음감 트레이닝 (2025)](https://trane.kro.kr/)
 
 <style>
     .yt-embed {
